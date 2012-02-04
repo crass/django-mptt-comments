@@ -379,17 +379,17 @@ def children_count(comment):
 
 def mptt_comments_media(context):
     return {
-        'MEDIA_URL' : context['MEDIA_URL']
+        'STATIC_URL' : context['STATIC_URL']
     }
 
 def mptt_comments_media_js(context):
     return {
-        'MEDIA_URL' : context['MEDIA_URL']
+        'STATIC_URL' : context['STATIC_URL']
     }
     
 def mptt_comments_media_css(context):
     return {
-        'MEDIA_URL' : context['MEDIA_URL']
+        'STATIC_URL' : context['STATIC_URL']
     }
     
 def display_comment_toplevel_for(context, target):
