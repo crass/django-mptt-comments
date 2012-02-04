@@ -15,17 +15,18 @@ Installation
 
     svn checkout http://django-mptt.googlecode.com/svn/trunk/mptt
     
-    svn checkout http://django-template-utils.googlecode.com/svn/trunk/template_utils
-    
 #. Add the `mptt_comments` directory to your Python path.
 
 #. Add the needed apps to `INSTALLED_APPS` ::
 
     'django.contrib.comments',
     'django.contrib.markup',
-    'template_utils',
     'mptt',
     'mptt_comments'
+
+#. Add needed settings to your settings.py ::
+
+    COMMENTS_APP = 'mptt_comments'
 
 #. Add `mptt_comments.urls` to your projects urlconf ::
 
