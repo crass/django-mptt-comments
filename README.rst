@@ -13,9 +13,7 @@ Installation
 
 #. Get the required third party modules ::
 
-    svn checkout http://django-mptt.googlecode.com/svn/trunk/mptt
-    
-#. Add the `mptt_comments` directory to your Python path.
+    pip install "django-mptt>=0.5.0"
 
 #. Add the needed apps to `INSTALLED_APPS` ::
 
@@ -31,6 +29,10 @@ Installation
 #. Add `mptt_comments.urls` to your projects urlconf ::
 
     (r'^comments/', include('mptt_comments.urls')),
+
+#. Add javascript translation support your projects urlconf ::
+
+    url(r'^jsi18n/(?P<packages>\S+?)/$', 'django.views.i18n.javascript_catalog'),
 
 #. Add the required code to the objects detail page (see Usage)
 
