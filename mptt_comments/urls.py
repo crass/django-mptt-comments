@@ -36,7 +36,7 @@ urlpatterns = patterns('mptt_comments.views',
         'comments_subtree',
         name='comments-subtree'
     ),
-    url(r'^detail/(\d+)/$',
+    url(r'^detail/(\d+|preview)/$',
         'comments_subtree',
         name='comment-detail',
         kwargs={'include_self': True, 'include_ancestors': True}

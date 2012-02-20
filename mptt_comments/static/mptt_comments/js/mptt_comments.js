@@ -173,7 +173,7 @@ jQuery(document).ready(function($) {
 
     $('.comment_expand').live("click", function(e) {
         var href = $(this).attr('href');
-        var id = 'c' + (new RegExp("(\\d+)/$").exec(href)[1]);
+        var id = 'c' + (new RegExp("(\\d+|preview)/$").exec(href)[1]);
         var comment_el = $('#' + id);
 
         if (comment_el.hasClass('comment_collapsed')) {

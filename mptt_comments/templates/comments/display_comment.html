@@ -8,11 +8,12 @@
         {% endif %}
     {% endif %}
 
-    <div class="{% include 'comments/_comment_class.html' %}" id="c{{ comment.pk }}">
+    {% with comment_id=comment.pk|default:"preview" %}
+    <div class="{% include 'comments/_comment_class.html' %}" id="c{{ comment_id }}">
         
     <div class="comment_outer">
         {% block comment_header %}
-            {% include "comments/_comment_title.html" %}
+            {% include "comments/_comment_title.html" with comment_id=comment_id %}
         {% endblock %}
         
         <div class="comment_content">
@@ -62,3 +63,4 @@
     {% else %}
         </div>
     {% endif %}
+    {% endwith %}
