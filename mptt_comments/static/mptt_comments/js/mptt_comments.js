@@ -102,14 +102,14 @@ jQuery(document).ready(function($) {
                                 var comment_count = $('#comment_count');
                                 var toplevel_comment_count = $('#comment_toplevel_count');
 
-                                nxt.replaceWith('<p>' + gettext("Your comment was posted.") + '</p>');
+                                nxt.html('<p>' + gettext("Your comment was posted.") + '</p>');
                                 comment_count.text(parseInt(comment_count.text(), 10) + 1);
                                 if (post_data.parent_pk !== "") {
                                     toplevel_comment_count.text(parseInt(toplevel_comment_count.text(), 10) + 1);
                                 }
                             } else {
                                 // the comment was posted but is awaiting moderation, we shouldn't update counts etc
-                                nxt.replaceWith('<p>' + gettext("Your comment was posted, it is now awaiting moderation to be displayed.") + '</p>');
+                                nxt.html('<p>' + gettext("Your comment was posted, it is now awaiting moderation to be displayed.") + '</p>');
                             }
                         }
                         else {
@@ -124,6 +124,20 @@ jQuery(document).ready(function($) {
             }); // end ajax call
             e.preventDefault();
         }); // end submit callback
+    }
+
+    function load_new_comment_form(url, node) {
+        $.ajax({
+            type: 'GET',
+            url: url,
+            dataType: 'html',
+            error: function(data, textStatus, xhrobject) {
+                return ajax_error(node, data, textStatus);
+            },
+            success: function(data, textStatus, xhrobject) {
+                append_data_and_rebind_form(node, data);
+            }
+        });
     }
 
     $('a.comment_reply').live("click", function(e) {
@@ -141,17 +155,7 @@ jQuery(document).ready(function($) {
             nxt.slideUp("slow");
         }
         
-        $.ajax({
-            type: 'GET',
-            url: $(this).attr('href') + '?is_ajax=1',
-            dataType: 'html',
-            error: function(data, textStatus, xhrobject) {
-                return ajax_error(nxt, data, textStatus);
-            },
-            success: function(data, textStatus, xhrobject) {
-                append_data_and_rebind_form(nxt, data);
-            }
-        });
+        load_new_comment_form($(this).attr('href') + '?is_ajax=1', nxt);
         e.preventDefault();
     });
 
@@ -259,5 +263,20 @@ jQuery(document).ready(function($) {
         var frm = $('form', nxt);
 
         bind_submit(frm, nxt);
+    });
+
+    $('a.comment_post_new').live("click", function(e) {
+        var toplevel_comment_form = $('.new_comment_form_wrapper form');
+        // If the new_comment_form_wrapper element does not have a form, 
+        // create a new one.
+        if (!$('.new_comment_form_wrapper form').length) {
+            var comment_form_url = $(this).attr('href');
+            var nxt = $('.new_comment_form_wrapper');
+            load_new_comment_form(comment_form_url + '?is_ajax=1', nxt);
+        }
+        
+        // Go to new comment form
+        window.location.hash = '#post_new_comment';
+        e.preventDefault();
     });
 });
