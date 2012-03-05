@@ -14,6 +14,11 @@ from django.contrib.contenttypes.models import ContentType
 from django.utils.html import escape
 from django.utils import datastructures, simplejson
 
+try:
+    from django.utils.timezone import now
+except ImportError:
+    now = datetime.datetime.now
+
 from django.contrib.comments.views.utils import next_redirect
 from django.contrib.comments.views.comments import CommentPostBadRequest
 from django.contrib.comments import signals, get_form, get_model
@@ -142,7 +147,7 @@ def post_comment(request, next=None, *args, **kwargs):
             'parent': parent_comment,
             'level': parent_comment and parent_comment.level + 1 or 0,
             'title': form.data.get("title", ""),
-            'submit_date': datetime.datetime.now(),
+            'submit_date': now(),
             'rght': 0,
             'lft': 0,
             'user': request.user,
