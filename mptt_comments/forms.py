@@ -9,6 +9,11 @@ from django import forms
 import time
 import datetime
 
+try:
+    from django.utils.timezone import now
+except ImportError:
+    now = datetime.datetime.now
+
 class MpttCommentForm(CommentForm):
     title = forms.CharField(label=_("Title"))
     parent_pk = forms.IntegerField(widget=forms.HiddenInput, required=False)
@@ -70,7 +75,7 @@ class MpttCommentForm(CommentForm):
             user_email   = "",   # self.cleaned_data["email"],
             user_url     = "",     # self.cleaned_data["url"],
             comment      = self.cleaned_data["comment"],
-            submit_date  = datetime.datetime.now(),
+            submit_date  = now(),
             site_id      = settings.SITE_ID,
             is_public    = parent_comment and parent_comment.is_public or True,
             is_removed   = False,
